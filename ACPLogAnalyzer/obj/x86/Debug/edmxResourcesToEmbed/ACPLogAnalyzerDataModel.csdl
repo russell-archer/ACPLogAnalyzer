@@ -1,0 +1,69 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Schema xmlns="http://schemas.microsoft.com/ado/2008/09/edm" xmlns:cg="http://schemas.microsoft.com/ado/2006/04/codegeneration" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" Namespace="ACPLogAnalyzerData" Alias="Self" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation">
+  <EntityContainer Name="ACPLogAnalyzerDB" annotation:LazyLoadingEnabled="true">
+    <EntitySet Name="Observatory" EntityType="ACPLogAnalyzerData.Observatory" />
+    <EntitySet Name="Observer" EntityType="ACPLogAnalyzerData.Observer" />
+    <EntitySet Name="Log" EntityType="ACPLogAnalyzerData.Log" />
+    <AssociationSet Name="ObservatoryObserver" Association="ACPLogAnalyzerData.ObservatoryObserver">
+      <End EntitySet="Observatory" Role="Observatory" />
+      <End EntitySet="Observer" Role="Observer" />
+    </AssociationSet>
+    <AssociationSet Name="ObserverLog" Association="ACPLogAnalyzerData.ObserverLog">
+      <End EntitySet="Observer" Role="Observer" />
+      <End EntitySet="Log" Role="Log" />
+    </AssociationSet>
+  </EntityContainer>
+  <EntityType Name="Observatory">
+    <Key>
+      <PropertyRef Name="ObservatoryID" />
+    </Key>
+    <Property Type="Int32" Name="ObservatoryID" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Type="String" Name="Name" Nullable="false" />
+    <Property Type="String" Name="Latitude" Nullable="false" />
+    <Property Type="String" Name="Longitude" Nullable="false" />
+  </EntityType>
+  <EntityType Name="Observer">
+    <Key>
+      <PropertyRef Name="ObserverID" />
+    </Key>
+    <Property Type="Int32" Name="ObserverID" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Type="Int32" Name="ObservatoryID" Nullable="false" />
+    <Property Type="String" Name="Surname" Nullable="false" />
+    <Property Type="String" Name="Forename" Nullable="false" />
+  </EntityType>
+  <EntityType Name="Log">
+    <Key>
+      <PropertyRef Name="LogID" />
+    </Key>
+    <Property Type="Int32" Name="LogID" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Type="Int32" Name="ObserverID" Nullable="false" />
+    <Property Type="Int32" Name="ObservatoryID" Nullable="false" />
+    <Property Type="String" Name="Name" Nullable="false" />
+    <Property Type="DateTime" Name="LogStartDate" Nullable="false" />
+    <Property Type="DateTime" Name="LogEndDate" Nullable="false" />
+  </EntityType>
+  <Association Name="ObservatoryObserver">
+    <End Type="ACPLogAnalyzerData.Observatory" Multiplicity="1" Role="Observatory" />
+    <End Type="ACPLogAnalyzerData.Observer" Multiplicity="*" Role="Observer" />
+    <ReferentialConstraint>
+      <Principal Role="Observatory">
+        <PropertyRef Name="ObservatoryID" />
+      </Principal>
+      <Dependent Role="Observer">
+        <PropertyRef Name="ObservatoryID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="ObserverLog">
+    <End Type="ACPLogAnalyzerData.Observer" Multiplicity="1" Role="Observer" />
+    <End Type="ACPLogAnalyzerData.Log" Multiplicity="*" Role="Log" />
+    <ReferentialConstraint>
+      <Principal Role="Observer">
+        <PropertyRef Name="ObserverID" />
+      </Principal>
+      <Dependent Role="Log">
+        <PropertyRef Name="ObserverID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+</Schema>

@@ -1,0 +1,37 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2008/09/mapping/cs">
+  <EntityContainerMapping StorageEntityContainer="ACPLogAnalyzerDataStoreContainer" CdmEntityContainer="ACPLogAnalyzerDB">
+    <EntitySetMapping Name="Observatory">
+      <EntityTypeMapping TypeName="IsTypeOf(ACPLogAnalyzerData.Observatory)">
+        <MappingFragment StoreEntitySet="Observatory">
+          <ScalarProperty Name="ObservatoryID" ColumnName="ObservatoryID" />
+          <ScalarProperty Name="Name" ColumnName="Name" />
+          <ScalarProperty Name="Latitude" ColumnName="Latitude" />
+          <ScalarProperty Name="Longitude" ColumnName="Longitude" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Observer">
+      <EntityTypeMapping TypeName="IsTypeOf(ACPLogAnalyzerData.Observer)">
+        <MappingFragment StoreEntitySet="Observer">
+          <ScalarProperty Name="ObserverID" ColumnName="ObserverID" />
+          <ScalarProperty Name="ObservatoryID" ColumnName="ObservatoryID" />
+          <ScalarProperty Name="Surname" ColumnName="Surname" />
+          <ScalarProperty Name="Forename" ColumnName="Forename" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Log">
+      <EntityTypeMapping TypeName="IsTypeOf(ACPLogAnalyzerData.Log)">
+        <MappingFragment StoreEntitySet="Log">
+          <ScalarProperty Name="LogID" ColumnName="LogID" />
+          <ScalarProperty Name="ObserverID" ColumnName="ObserverID" />
+          <ScalarProperty Name="ObservatoryID" ColumnName="ObservatoryID" />
+          <ScalarProperty Name="Name" ColumnName="Name" />
+          <ScalarProperty Name="LogStartDate" ColumnName="LogStartDate" />
+          <ScalarProperty Name="LogEndDate" ColumnName="LogEndDate" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+  </EntityContainerMapping>
+</Mapping>

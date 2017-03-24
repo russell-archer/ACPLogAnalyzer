@@ -1,0 +1,124 @@
+﻿<Window x:Class="ACPLogAnalyzer.ConfigPlot"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:local="clr-namespace:ACPLogAnalyzer"
+        Title="Configure Graph Plot" Height="506" Width="914" WindowStartupLocation="CenterScreen" ShowInTaskbar="True" ResizeMode="NoResize" Loaded="WindowLoaded" Closing="WindowClosing">
+    <Window.Resources>
+    </Window.Resources>
+    <Grid>
+        <TabControl Height="404" HorizontalAlignment="Left" Margin="12,12,0,0" Name="TabControl1" VerticalAlignment="Top" Width="423">
+            
+            <TabItem Header="Text" Name="TabItemGraphText" Selector.IsSelected="True">
+                <Grid>
+                    <TextBlock Height="178" HorizontalAlignment="Left" Margin="17,188,0,0" Name="TextBlockExample" Text="Axis labels &amp; data series key" TextAlignment="Center" TextWrapping="NoWrap" VerticalAlignment="Top" Width="372" />
+                    <ComboBox Height="30" HorizontalAlignment="Left" HorizontalContentAlignment="Center" Margin="99,14,0,0" Name="FontSelector" VerticalAlignment="Top" VerticalContentAlignment="Center" Width="290" SelectionChanged="FontSelectorSelectionChanged">
+                        <ComboBox.ItemTemplate>
+                            <DataTemplate>
+                                <TextBlock FontFamily="{Binding}" Text="{Binding}" />
+                            </DataTemplate>
+                        </ComboBox.ItemTemplate>
+                    </ComboBox>
+                    <Label Content="Font:" Height="28" HorizontalAlignment="Left" Margin="15,16,0,0" Name="Label1" VerticalAlignment="Top" Width="44" />
+                    <Label Content="Font Size:" Height="28" HorizontalAlignment="Left" Margin="15,60,0,0" Name="Label2" VerticalAlignment="Top" />
+                    <Label Content="Font Weight:" Height="28" HorizontalAlignment="Left" Margin="15,94,0,0" Name="Label3" VerticalAlignment="Top" />
+                    <ComboBox Height="23" HorizontalAlignment="Left" Margin="99,94,0,0" Name="ComboBoxWeight" SelectedValuePath="Content" VerticalAlignment="Top" Width="111" SelectionChanged="ComboBoxWeightSelectionChanged">
+                        <ComboBoxItem Content="Normal" />
+                        <ComboBoxItem Content="Bold" />
+                        <ComboBoxItem Content="Thin" />
+                    </ComboBox>
+                    <Slider Height="23" HorizontalAlignment="Left" IsSnapToTickEnabled="True" Margin="139,60,0,0" Maximum="72" Minimum="5" Name="SliderFontSize" SmallChange="1" TickPlacement="None" Value="{Binding Path=PlotFontSize, Mode=TwoWay}" VerticalAlignment="Top" Width="250" ValueChanged="SliderFontSizeValueChanged" />
+                    <Label Content="Font Style:" Height="28" HorizontalAlignment="Left" Margin="215,94,0,0" Name="Label4" VerticalAlignment="Top" />
+                    <ComboBox Height="23" HorizontalAlignment="Left" Margin="286,94,0,0" Name="ComboBoxStyle" SelectedValuePath="Content" VerticalAlignment="Top" Width="103" SelectionChanged="ComboBoxStyleSelectionChanged">
+                        <ComboBoxItem Content="Normal" />
+                        <ComboBoxItem Content="Italic" />
+                        <ComboBoxItem Content="Oblique" />
+                    </ComboBox>
+                    <Label BorderBrush="#FF626262" BorderThickness="1" Content="{Binding Path=Value, Mode=OneWay, ElementName=SliderFontSize}" Height="28" HorizontalAlignment="Left" HorizontalContentAlignment="Left" Margin="99,57,0,0" Name="LabelFontSize" VerticalAlignment="Top" Width="34" />
+                    <Label Content="Font Color:" Height="28" HorizontalAlignment="Left" Margin="15,128,0,0" Name="Label5" VerticalAlignment="Top" />
+                    <Label Background="Black" Cursor="Hand" Height="28" HorizontalAlignment="Left" Margin="99,128,0,0" Name="LabelFgColor" VerticalAlignment="Top" Width="290" MouseUp="LabelFgColorMouseUp" />
+                </Grid>
+            </TabItem>
+            
+            <TabItem Header="Title" Name="TabItemGraphTextTitle">
+                <Grid>
+                    <TextBlock Height="177" HorizontalAlignment="Left" Margin="17,189,0,0" Name="TextBlockExampleTitle" Text="Title text" TextAlignment="Center" TextWrapping="NoWrap" VerticalAlignment="Top" Width="372" />
+                    <ComboBox Height="30" HorizontalAlignment="Left" HorizontalContentAlignment="Center" Margin="99,14,0,0" Name="FontSelectorTitle" VerticalAlignment="Top" VerticalContentAlignment="Center" Width="290" SelectionChanged="FontSelectorTitleSelectionChanged">
+                        <ComboBox.ItemTemplate>
+                            <DataTemplate>
+                                <TextBlock FontFamily="{Binding}" Text="{Binding}" />
+                            </DataTemplate>
+                        </ComboBox.ItemTemplate>
+                    </ComboBox>
+                    <Label Content="Font:" Height="28" HorizontalAlignment="Left" Margin="15,16,0,0" Name="Label8" VerticalAlignment="Top" Width="44" />
+                    <Label Content="Font Size:" Height="28" HorizontalAlignment="Left" Margin="15,60,0,0" Name="Label9" VerticalAlignment="Top" />
+                    <Label Content="Font Weight:" Height="28" HorizontalAlignment="Left" Margin="15,94,0,0" Name="Label10" VerticalAlignment="Top" />
+                    <ComboBox Height="23" HorizontalAlignment="Left" Margin="99,94,0,0" Name="ComboBoxWeightTitle" SelectedValuePath="Content" VerticalAlignment="Top" Width="111" SelectionChanged="ComboBoxWeightTitleSelectionChanged">
+                        <ComboBoxItem Content="Normal" />
+                        <ComboBoxItem Content="Bold" />
+                        <ComboBoxItem Content="Thin" />
+                    </ComboBox>
+                    <Slider Height="23" HorizontalAlignment="Left" IsSnapToTickEnabled="True" Margin="139,60,0,0" Maximum="72" Minimum="5" Name="SliderFontSizeTitle" SmallChange="1" TickPlacement="None" Value="{Binding Path=PlotFontSizeTitle, Mode=TwoWay}" VerticalAlignment="Top" Width="250" ValueChanged="SliderFontSizeTitleValueChanged" />
+                    <Label Content="Font Style:" Height="28" HorizontalAlignment="Left" Margin="215,94,0,0" Name="Label11" VerticalAlignment="Top" />
+                    <ComboBox Height="23" HorizontalAlignment="Left" Margin="286,94,0,0" Name="ComboBoxStyleTitle" SelectedValuePath="Content" VerticalAlignment="Top" Width="103" SelectionChanged="ComboBoxStyleTitleSelectionChanged">
+                        <ComboBoxItem Content="Normal" />
+                        <ComboBoxItem Content="Italic" />
+                        <ComboBoxItem Content="Oblique" />
+                    </ComboBox>
+                    <Label BorderBrush="#FF626262" BorderThickness="1" Content="{Binding Path=Value, Mode=OneWay, ElementName=SliderFontSizeTitle}" Height="28" HorizontalAlignment="Left" HorizontalContentAlignment="Left" Margin="99,57,0,0" Name="LabelFontSizeTitle" VerticalAlignment="Top" Width="34" />
+                    <Label Content="Font Color:" Height="28" HorizontalAlignment="Left" Margin="15,128,0,0" Name="Label13" VerticalAlignment="Top" />
+                    <Label Background="Black" Cursor="Hand" Height="28" HorizontalAlignment="Left" Margin="99,128,0,0" Name="LabelFgColorTitle" VerticalAlignment="Top" Width="290" MouseUp="LabelFgColorTitleMouseUp" />
+                </Grid>
+            </TabItem>
+
+            <TabItem Header="Graph Colors" Name="TabItemColors">
+                <Grid>
+                    <Label Background="Black" Cursor="Hand" Height="28" HorizontalAlignment="Left" Margin="100,14,0,0" Name="LabelGraphWndBg" VerticalAlignment="Top" Width="290" MouseUp="LabelGraphWndBgMouseUp" />
+                    <Label Background="Black" Cursor="Hand" Height="28" HorizontalAlignment="Left" Margin="100,50,0,0" Name="LabelKeyBg" VerticalAlignment="Top" Width="290" MouseUp="LabelKeyBgMouseUp" />
+                    <Label Content="Background:" Height="28" HorizontalAlignment="Left" Margin="16,14,0,0" Name="Label21" VerticalAlignment="Top" Width="78" />
+                    <Label Content="Key:" Height="28" HorizontalAlignment="Left" Margin="16,50,0,0" Name="Label22" VerticalAlignment="Top" Width="78" />
+                    <CheckBox Content="Key background transparent (blends with graph bg)" Height="18" HorizontalAlignment="Left" Margin="100,93,0,0" Name="CheckBoxKeyTransparent" VerticalAlignment="Top" Width="290" Checked="CheckBoxKeyTransparentChecked" Unchecked="CheckBoxKeyTransparentUnchecked" />
+                </Grid>
+            </TabItem>
+            
+            <TabItem Header="Primary Series" Name="TabItemSeries1">
+                <Grid>
+                    <Label Background="Black" Cursor="Hand" Height="28" HorizontalAlignment="Left" Margin="101,14,0,0" Name="LabelPrimaryColor" VerticalAlignment="Top" Width="290" MouseUp="LabelPrimaryColorMouseUp" />
+                    <Label Content="Line Color:" Height="28" HorizontalAlignment="Left" Margin="17,14,0,0" Name="Label15" VerticalAlignment="Top" Width="78" />
+                    <Label Content="Thickness:" Height="28" HorizontalAlignment="Left" Margin="17,48,0,0" Name="Label16" VerticalAlignment="Top" Width="78" />
+                    <CheckBox Content="Show data points" Height="21" HorizontalAlignment="Left" Margin="101,82,0,0" Name="CheckBoxShowPointsMain" VerticalAlignment="Top" Width="181" IsChecked="True" Checked="CheckBoxShowPointsMainChecked" Unchecked="CheckBoxShowPointsMainUnchecked" />
+                    <TextBox Height="23" HorizontalAlignment="Left" Margin="101,48,0,0" Name="TextBoxPrimaryThickness" VerticalAlignment="Top" Width="63" Text="1.5" TextChanged="TextBoxPrimaryThicknessTextChanged" />
+                </Grid>
+            </TabItem>
+            
+            <TabItem Header="Secondary Series" Name="TabItemSeries2">
+                <Grid>
+                    <Label Background="Black" Cursor="Hand" Height="28" HorizontalAlignment="Left" Margin="101,14,0,0" Name="LabelSecondaryColor" VerticalAlignment="Top" Width="290" MouseUp="LabelSecondaryColorMouseUp" />
+                    <Label Content="Line Color:" Height="28" HorizontalAlignment="Left" Margin="17,14,0,0" Name="Label12" VerticalAlignment="Top" Width="78" />
+                    <Label Content="Thickness:" Height="28" HorizontalAlignment="Left" Margin="17,48,0,0" Name="Label14" VerticalAlignment="Top" Width="78" />
+                    <CheckBox Content="Show data points" Height="21" HorizontalAlignment="Left" IsChecked="False" Margin="101,82,0,0" Name="CheckBoxSecondaryShowDataPoints" VerticalAlignment="Top" Width="181" Checked="CheckBoxSecondaryShowDataPointsChecked" Unchecked="CheckBoxSecondaryShowDataPointsUnchecked" />
+                    <TextBox Height="23" HorizontalAlignment="Left" Margin="101,48,0,0" Name="TextBoxSecondaryThickness" VerticalAlignment="Top" Width="63" Text="1.5" TextChanged="TextBoxSecondaryThicknessTextChanged" />
+                </Grid>
+            </TabItem>
+
+            <TabItem Header="Tertiary Series" Name="TabItemSeries3">
+                <Grid>
+                    <Label Background="Black" Cursor="Hand" Height="28" HorizontalAlignment="Left" Margin="101,14,0,0" Name="LabelTertiaryColor" VerticalAlignment="Top" Width="290" MouseUp="LabelTertiaryColorMouseUp" />
+                    <Label Content="Line Color:" Height="28" HorizontalAlignment="Left" Margin="17,14,0,0" Name="Label102" VerticalAlignment="Top" Width="78" />
+                    <Label Content="Thickness:" Height="28" HorizontalAlignment="Left" Margin="17,48,0,0" Name="Label104" VerticalAlignment="Top" Width="78" />
+                    <CheckBox Content="Show data points" Height="21" HorizontalAlignment="Left" IsChecked="True" Margin="101,82,0,0" Name="CheckBoxTertiaryShowDataPoints" VerticalAlignment="Top" Width="181" Checked="CheckBoxTertiaryShowDataPointsChecked" Unchecked="CheckBoxTertiaryShowDataPointsUnchecked" />
+                    <TextBox Height="23" HorizontalAlignment="Left" Margin="101,48,0,0" Name="TextBoxTertiaryThickness" VerticalAlignment="Top" Width="63" Text="1.5" TextChanged="TextBoxTertiaryThicknessTextChanged" />
+                </Grid>
+            </TabItem>
+        </TabControl>
+        <StackPanel Height="49" HorizontalAlignment="Left" Margin="0,424,0,0" Name="StackPanel1" VerticalAlignment="Top" Width="885">
+            <Button Content="Save &amp; Close" Height="40" Name="ButtonClose" Width="155" Click="ButtonCloseClick" />
+        </StackPanel>
+
+            
+        <GroupBox Header="Example Graph" Height="404" HorizontalAlignment="Left" Margin="448,12,0,0" Name="GroupBox1" VerticalAlignment="Top" Width="443">
+            <Grid>
+                <local:GraphUserControl x:Name="GraphUc" Margin="11,24,6,18"></local:GraphUserControl>                
+            </Grid>
+        </GroupBox>
+    </Grid>
+</Window>

@@ -1,0 +1,73 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Schema Namespace="ACPLogAnalyzerData.Store" Alias="Self" Provider="System.Data.SqlClient" ProviderManifestToken="2008" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns="http://schemas.microsoft.com/ado/2009/02/edm/ssdl">
+  <EntityContainer Name="ACPLogAnalyzerDataStoreContainer">
+    <EntitySet Name="Log" EntityType="ACPLogAnalyzerData.Store.Log" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="Observatory" EntityType="ACPLogAnalyzerData.Store.Observatory" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="Observer" EntityType="ACPLogAnalyzerData.Store.Observer" store:Type="Tables" Schema="dbo" />
+    <AssociationSet Name="FK_ObservatoryObserver" Association="ACPLogAnalyzerData.Store.FK_ObservatoryObserver">
+      <End Role="Observatory" EntitySet="Observatory" />
+      <End Role="Observer" EntitySet="Observer" />
+    </AssociationSet>
+    <AssociationSet Name="FK_ObserverLog" Association="ACPLogAnalyzerData.Store.FK_ObserverLog">
+      <End Role="Observer" EntitySet="Observer" />
+      <End Role="Log" EntitySet="Log" />
+    </AssociationSet>
+  </EntityContainer>
+  <EntityType Name="Log">
+    <Key>
+      <PropertyRef Name="LogID" />
+    </Key>
+    <Property Name="LogID" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
+    <Property Name="ObserverID" Type="int" Nullable="false" />
+    <Property Name="ObservatoryID" Type="int" Nullable="false" />
+    <Property Name="Name" Type="nvarchar(max)" Nullable="false" />
+    <Property Name="LogStartDate" Type="datetime" Nullable="false" />
+    <Property Name="LogEndDate" Type="datetime" Nullable="false" />
+  </EntityType>
+  <EntityType Name="Observatory">
+    <Key>
+      <PropertyRef Name="ObservatoryID" />
+    </Key>
+    <Property Name="ObservatoryID" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
+    <Property Name="Name" Type="nvarchar(max)" Nullable="false" />
+    <Property Name="Latitude" Type="nvarchar(max)" Nullable="false" />
+    <Property Name="Longitude" Type="nvarchar(max)" Nullable="false" />
+  </EntityType>
+  <EntityType Name="Observer">
+    <Key>
+      <PropertyRef Name="ObserverID" />
+    </Key>
+    <Property Name="ObserverID" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
+    <Property Name="ObservatoryID" Type="int" Nullable="false" />
+    <Property Name="Surname" Type="nvarchar(max)" Nullable="false" />
+    <Property Name="Forename" Type="nvarchar(max)" Nullable="false" />
+  </EntityType>
+  <Association Name="FK_ObservatoryObserver">
+    <End Role="Observatory" Type="ACPLogAnalyzerData.Store.Observatory" Multiplicity="1">
+      <OnDelete Action="Cascade" />
+    </End>
+    <End Role="Observer" Type="ACPLogAnalyzerData.Store.Observer" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Observatory">
+        <PropertyRef Name="ObservatoryID" />
+      </Principal>
+      <Dependent Role="Observer">
+        <PropertyRef Name="ObservatoryID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_ObserverLog">
+    <End Role="Observer" Type="ACPLogAnalyzerData.Store.Observer" Multiplicity="1">
+      <OnDelete Action="Cascade" />
+    </End>
+    <End Role="Log" Type="ACPLogAnalyzerData.Store.Log" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Observer">
+        <PropertyRef Name="ObserverID" />
+      </Principal>
+      <Dependent Role="Log">
+        <PropertyRef Name="ObserverID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+</Schema>
