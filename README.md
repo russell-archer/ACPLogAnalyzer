@@ -19,7 +19,7 @@ less, even when parsing several hundred logs.
         No, ACP Log Analyzer simply <em>reads</em> the contents of one or more of your ACP logs (which are just text files with a .log extension),
         analyzes the text and outputs a summary of the information found. At no time is the contents of any log file altered.
     </p>
-    <p></p>
+
 </div>
 <hr />
 
@@ -423,503 +423,455 @@ the previously downloaded update the next time you run the application.
 In order that the process used by ACP Log Analyzer when interpreting ACP log files may be transparent
 and open to review and feedback, we present here a simplified version of the parsing rules employed by Analyzer.
 
-<table>
-    <tr><td width="150px"><strong>Event</strong></td>
-    <td width="850px">Imaging target</td></tr>
+Event:          Imaging target
+Start Trigger:  "starting target"
+End Trigger:    "starting target"
+Exclusions:     -
+Notes:          A new target triggers the end of the previous target
 
-    <tr><td><strong>Start Trigger</strong></td>
-    <td>"starting target"</td></tr>
+Event:          Target imaging exposure
+Start Trigger:  "imaging to"
+End Trigger:    "taking"
+Exclusions:     -
+Notes:          -
 
-    <tr><td><strong>End Trigger</strong></td>
-    <td>"starting target"</td></tr>
+Event:          FWHM measurement
+Start Trigger:  "image fwhm is"
+End Trigger:    "imaging to"
+Exclusions:     Pointing update exposure FWHMs
+Notes:          Only imaging exposure FWHMs are recorded (pointing exposure FWHMs are excluded)
 
-    <tr><td><strong>Exclusions</strong></td>
-    <td>-</td></tr>
+Event:          Auto-focus time measurement
+Start Trigger:  "start slew to autofocus"
+End Trigger:    "autofocus finished" + successful final plate solve
+Exclusions:     Center slew operations; FocusMax reports a failure; Plate-solve failure (for any reason)
+Notes:          AF time measurement includes:
 
-    <tr><td><strong>Notes</strong></td>
-    <td>A new target triggers the end of the previous target</td></tr>
-</table>
+                Time to slew to the AF target
+                Acquiring the AF star (includes a possible plate solve by FocusMax)
+                The actual focusing process handled by FocusMax
+                Re-slew back to the original target
+                Pointing update/slew
 
-<table>
-    <tr><td width="150px"><strong>Event</strong></td>
-    <td width="850px">Target imaging exposure</td></tr>
+                Only auto-focus runs which result in successful plate-solves are included in the result set
 
-    <tr><td><strong>Start Trigger</strong></td>
-    <td>"imaging to"</td></tr>
 
-    <tr><td><strong>End Trigger</strong></td>
-    <td>"taking"</td></tr>
 
-    <tr><td><strong>Exclusions</strong></td>
-    <td>-</td></tr>
 
-    <tr><td><strong>Notes</strong></td>
-    <td>-</td></tr>
-</table>
+    Event
+    Pointing error measurement (object slew)
 
-<table>
-    <tr><td width="150px"><strong>Event</strong></td>
-    <td width="850px">FWHM measurement</td></tr>
+    Start Trigger
+    "start slew to"
 
-    <tr><td><strong>Start Trigger</strong></td>
-    <td>"image fwhm is"</td></tr>
+    End Trigger
+    "(slew complete)" + successful final plate solve
 
-    <tr><td><strong>End Trigger</strong></td>
-    <td>"imaging to"</td></tr>
+    Exclusions
 
-    <tr><td><strong>Exclusions</strong></td>
-    <td>Pointing update exposure FWHMs</td></tr>
-
-    <tr><td><strong>Notes</strong></td>
-    <td>Only imaging exposure FWHMs are recorded (pointing exposure FWHMs are excluded)</td></tr>
-</table>
-
-<table>
-    <tr><td width="150px"><strong>Event</strong></td>
-    <td width="850px">Auto-focus time measurement</td></tr>
-
-    <tr><td><strong>Start Trigger</strong></td>
-    <td>"start slew to autofocus"</td></tr>
-
-    <tr><td><strong>End Trigger</strong></td>
-    <td>"autofocus finished" + successful final plate solve</td></tr>
-
-    <tr><td><strong>Exclusions</strong></td>
-    <td>
-        Center slew operations<br />
-        FocusMax reports a failure<br />
+        Anytime "start slew to" is immediately preceded by "re-slew to target" (this is a 'center' slew)
         Plate-solve failure (for any reason)
-    </td></tr>
 
-    <tr><td><strong>Notes</strong></td>
-    <td>
-        AF time measurement includes:
-        <p></p>
-        Time to slew to the AF target<br />
-        Acquiring the AF star (includes a possible plate solve by FocusMax)<br />
-        The actual focusing process handled by FocusMax<br />
-        Re-slew back to the original target<br />
-        Pointing update/slew
-        <p></p>
-        Only auto-focus runs which result in successful plate-solves are included in the result set
-    </td></tr>
-</table>
 
-<table>
-    <tr><td width="150px"><strong>Event</strong></td>
-    <td width="850px">Pointing error measurement (object slew)</td></tr>
+    Notes
 
-    <tr><td><strong>Start Trigger</strong></td>
-    <td>"start slew to"</td></tr>
-
-    <tr><td><strong>End Trigger</strong></td>
-    <td>"(slew complete)" + successful final plate solve</td></tr>
-
-    <tr><td><strong>Exclusions</strong></td>
-    <td>
-        Anytime "start slew to" is immediately preceded by "re-slew to target" (this is a 'center' slew)<br />
-        Plate-solve failure (for any reason)
-    </td></tr>
-
-    <tr><td><strong>Notes</strong></td>
-    <td>
         For our purposes an 'object' slew is defined as:
-        <p></p>
-        Slews to imaging targets (e.g M57, etc.)<br />
-        Slews to auto-focus targets<br />
+
+        Slews to imaging targets (e.g M57, etc.)
+        Slews to auto-focus targets
         Return slews from AF targets
-        <p></p>
+
         Only slews which result in successful plate-solves are included in the result set
-    </td></tr>
-</table>
 
-<table>
-    <tr><td width="150px"><strong>Event</strong></td>
-    <td width="850px">Pointing error measurement (center slew)</td></tr>
 
-    <tr><td><strong>Start Trigger</strong></td>
-    <td>"Re-slew to target"</td></tr>
 
-    <tr><td><strong>End Trigger</strong></td>
-    <td>"(slew complete)"</td></tr>
 
-    <tr><td><strong>Exclusions</strong></td>
-    <td>
-        Anytime "re-slew to target" is immediately followed by "start slew to autofocus" <br />
-        (there should be no plate-solve after re-slew to a focus star)<br />
-        Plate-solve failure (for any reason)<br />
-    </td></tr>
+    Event
+    Pointing error measurement (center slew)
 
-    <tr><td><strong>Notes</strong></td>
-    <td>
-        Only slews which result in successful plate-solves are included in the result set
-    </td></tr>
-</table>
+    Start Trigger
+    "Re-slew to target"
 
-<table>
-    <tr><td width="150px"><strong>Event</strong></td>
-    <td width="850px">Slew (to target) time</td></tr>
+    End Trigger
+    "(slew complete)"
 
-    <tr><td><strong>Start Trigger</strong></td>
-    <td>"start slew to"</td></tr>
+    Exclusions
 
-    <tr><td><strong>End Trigger</strong></td>
-    <td>"slew complete"</td></tr>
-
-    <tr><td><strong>Exclusions</strong></td>
-    <td>
-        Anytime "start slew to" is immediately preceded by "re-slew to target" (this is a 'center' slew)<br />
-        Plate-solve failure (for any reason)<br />
-        Pointing update, re-slew to target or start of slew to new target found while looking for slew completion time
-    </td></tr>
-
-    <tr><td><strong>Notes</strong></td>
-    <td>
-        Only slews which result in successful plate-solves are included in the time result set
-    </td></tr>
-</table>
-
-<table>
-    <tr><td width="150px"><strong>Event</strong></td>
-    <td width="850px">Plate solve count</td></tr>
-
-    <tr><td><strong>Start Trigger</strong></td>
-    <td>"solved!"</td></tr>
-
-    <tr><td><strong>End Trigger</strong></td>
-    <td>-</td></tr>
-
-    <tr><td><strong>Exclusions</strong></td>
-    <td>
-        -
-    </td></tr>
-
-    <tr><td><strong>Notes</strong></td>
-    <td>
-        -
-    </td></tr>
-</table>
-
-<table>
-    <tr><td width="150px"><strong>Event</strong></td>
-    <td width="850px">Plate solve error count</td></tr>
-
-    <tr><td><strong>Start Trigger</strong></td>
-    <td>
-        Any of:
-        <p></p>
-        "plate solve error!"<br />
-        "no matching stars found"<br />
-        "solution is suspect"
-    </td></tr>
-
-    <tr><td><strong>End Trigger</strong></td>
-    <td>-</td></tr>
-
-    <tr><td><strong>Exclusions</strong></td>
-    <td>
-        -
-    </td></tr>
-
-    <tr><td><strong>Notes</strong></td>
-    <td>
-        -
-    </td></tr>
-</table>
-
-<table>
-    <tr><td width="150px"><strong>Event</strong></td>
-    <td width="850px">Successful auto-focus count and HFD value</td></tr>
-
-    <tr><td><strong>Start Trigger</strong></td>
-    <td>"auto-focus successful!"</td></tr>
-
-    <tr><td><strong>End Trigger</strong></td>
-    <td>HFD = {value}</td></tr>
-
-    <tr><td><strong>Exclusions</strong></td>
-    <td>
-        -
-    </td></tr>
-
-    <tr><td><strong>Notes</strong></td>
-    <td>
-        -
-    </td></tr>
-</table>
-
-<table>
-    <tr><td width="150px"><strong>Event</strong></td>
-    <td width="850px">Auto-focus failure count</td></tr>
-
-    <tr><td><strong>Start Trigger</strong></td>
-    <td>"autofocus failed"</td></tr>
-
-    <tr><td><strong>End Trigger</strong></td>
-    <td>-</td></tr>
-
-    <tr><td><strong>Exclusions</strong></td>
-    <td>
-        -
-    </td></tr>
-
-    <tr><td><strong>Notes</strong></td>
-    <td>
-        -
-    </td></tr>
-</table>
-
-<table>
-    <tr><td width="150px"><strong>Event</strong></td>
-    <td width="850px">Script error count</td></tr>
-
-    <tr><td><strong>Start Trigger</strong></td>
-    <td>"script error" </td></tr>
-
-    <tr><td><strong>End Trigger</strong></td>
-    <td>-</td></tr>
-
-    <tr><td><strong>Exclusions</strong></td>
-    <td>
-        -
-    </td></tr>
-
-    <tr><td><strong>Notes</strong></td>
-    <td>
-        -
-    </td></tr>
-</table>
-
-<table>
-    <tr><td width="150px"><strong>Event</strong></td>
-    <td width="850px">Script abort count</td></tr>
-
-    <tr><td><strong>Start Trigger</strong></td>
-    <td>"script was aborted"</td></tr>
-
-    <tr><td><strong>End Trigger</strong></td>
-    <td>-</td></tr>
-
-    <tr><td><strong>Exclusions</strong></td>
-    <td>
-        -
-    </td></tr>
-
-    <tr><td><strong>Notes</strong></td>
-    <td>
-        -
-    </td></tr>
-</table>
-
-<table>
-    <tr><td width="150px"><strong>Event</strong></td>
-    <td width="850px">Guider start-up time</td></tr>
-
-    <tr><td><strong>Start Trigger</strong></td>
-    <td>"trying to autoguide"</td></tr>
-
-    <tr><td><strong>End Trigger</strong></td>
-    <td>"autoguiding at"</td></tr>
-
-    <tr><td><strong>Exclusions</strong></td>
-    <td>
-        -
-    </td></tr>
-
-    <tr><td><strong>Notes</strong></td>
-    <td>
-        -
-    </td></tr>
-</table>
-
-<table>
-    <tr><td width="150px"><strong>Event</strong></td>
-    <td width="850px">Guider settle time</td></tr>
-
-    <tr><td><strong>Start Trigger</strong></td>
-    <td>"guider check ok"</td></tr>
-
-    <tr><td><strong>End Trigger</strong></td>
-    <td>"imaging to"</td></tr>
-
-    <tr><td><strong>Exclusions</strong></td>
-    <td>
-        -
-    </td></tr>
-
-    <tr><td><strong>Notes</strong></td>
-    <td>
-        We start by looking for the successful end of the settle time, then we work backwards to find the start time
-    </td></tr>
-</table>
-
-<table>
-    <tr><td width="150px"><strong>Event</strong></td>
-    <td width="850px">Filter change time</td></tr>
-
-    <tr><td><strong>Start Trigger</strong></td>
-    <td>"switching from"</td></tr>
-
-    <tr><td><strong>End Trigger</strong></td>
-    <td>"(taking"</td></tr>
-
-    <tr><td><strong>Exclusions</strong></td>
-    <td>
-        "(guide star" found while looking for end trigger
-    </td></tr>
-
-    <tr><td><strong>Notes</strong></td>
-    <td>
-        If not doing a pointing update there is no way of working out the filter change time.<br />
-        This is because the change time is included as part of the guider start-up time
-    </td></tr>
-</table>
-
-<table>
-    <tr><td width="150px"><strong>Event</strong></td>
-    <td width="850px">Wait time</td></tr>
-
-    <tr><td><strong>Start Trigger</strong></td>
-    <td>"wait until"</td></tr>
-
-    <tr><td><strong>End Trigger</strong></td>
-    <td>"wait finished"</td></tr>
-
-    <tr><td><strong>Exclusions</strong></td>
-    <td>
-        -
-    </td></tr>
-
-    <tr><td><strong>Notes</strong></td>
-    <td>
-        -
-    </td></tr>
-</table>
-
-<table>
-    <tr><td width="150px"><strong>Event</strong></td>
-    <td width="850px">Pointing exposure/plate solve time updates</td></tr>
-
-    <tr><td><strong>Start Trigger</strong></td>
-    <td>"updating pointing" + successful plate-solve</td></tr>
-
-    <tr><td><strong>End Trigger</strong></td>
-    <td>Successful plate-solve time</td></tr>
-
-    <tr><td><strong>Exclusions</strong></td>
-    <td>
+        Anytime "re-slew to target" is immediately followed by "start slew to autofocus"
+        (there should be no plate-solve after re-slew to a focus star)
         Plate-solve failure (for any reason)
-    </td></tr>
 
-    <tr><td><strong>Notes</strong></td>
-    <td>
+
+    Notes
+
+        Only slews which result in successful plate-solves are included in the result set
+
+
+
+
+    Event
+    Slew (to target) time
+
+    Start Trigger
+    "start slew to"
+
+    End Trigger
+    "slew complete"
+
+    Exclusions
+
+        Anytime "start slew to" is immediately preceded by "re-slew to target" (this is a 'center' slew)
+        Plate-solve failure (for any reason)
+        Pointing update, re-slew to target or start of slew to new target found while looking for slew completion time
+
+
+    Notes
+
+        Only slews which result in successful plate-solves are included in the time result set
+
+
+
+
+    Event
+    Plate solve count
+
+    Start Trigger
+    "solved!"
+
+    End Trigger
+    -
+
+    Exclusions
+
+        -
+
+
+    Notes
+
+        -
+
+
+
+
+    Event
+    Plate solve error count
+
+    Start Trigger
+
+        Any of:
+
+        "plate solve error!"
+        "no matching stars found"
+        "solution is suspect"
+
+
+    End Trigger
+    -
+
+    Exclusions
+
+        -
+
+
+    Notes
+
+        -
+
+
+
+
+    Event
+    Successful auto-focus count and HFD value
+
+    Start Trigger
+    "auto-focus successful!"
+
+    End Trigger
+    HFD = {value}
+
+    Exclusions
+
+        -
+
+
+    Notes
+
+        -
+
+
+
+
+    Event
+    Auto-focus failure count
+
+    Start Trigger
+    "autofocus failed"
+
+    End Trigger
+    -
+
+    Exclusions
+
+        -
+
+
+    Notes
+
+        -
+
+
+
+
+    Event
+    Script error count
+
+    Start Trigger
+    "script error"
+
+    End Trigger
+    -
+
+    Exclusions
+
+        -
+
+
+    Notes
+
+        -
+
+
+
+
+    Event
+    Script abort count
+
+    Start Trigger
+    "script was aborted"
+
+    End Trigger
+    -
+
+    Exclusions
+
+        -
+
+
+    Notes
+
+        -
+
+
+
+
+    Event
+    Guider start-up time
+
+    Start Trigger
+    "trying to autoguide"
+
+    End Trigger
+    "autoguiding at"
+
+    Exclusions
+
+        -
+
+
+    Notes
+
+        -
+
+
+
+
+    Event
+    Guider settle time
+
+    Start Trigger
+    "guider check ok"
+
+    End Trigger
+    "imaging to"
+
+    Exclusions
+
+        -
+
+
+    Notes
+
+        We start by looking for the successful end of the settle time, then we work backwards to find the start time
+
+
+
+
+    Event
+    Filter change time
+
+    Start Trigger
+    "switching from"
+
+    End Trigger
+    "(taking"
+
+    Exclusions
+
+        "(guide star" found while looking for end trigger
+
+
+    Notes
+
+        If not doing a pointing update there is no way of working out the filter change time.
+        This is because the change time is included as part of the guider start-up time
+
+
+
+
+    Event
+    Wait time
+
+    Start Trigger
+    "wait until"
+
+    End Trigger
+    "wait finished"
+
+    Exclusions
+
+        -
+
+
+    Notes
+
+        -
+
+
+
+
+    Event
+    Pointing exposure/plate solve time updates
+
+    Start Trigger
+    "updating pointing" + successful plate-solve
+
+    End Trigger
+    Successful plate-solve time
+
+    Exclusions
+
+        Plate-solve failure (for any reason)
+
+
+    Notes
+
         Only exposures which result in successful plate-solves are included in the time result set
-    </td></tr>
-</table>
 
-<table>
-    <tr><td width="150px"><strong>Event</strong></td>
-    <td width="850px">Guider failure</td></tr>
 
-    <tr><td><strong>Start Trigger</strong></td>
-    <td>
+
+
+    Event
+    Guider failure
+
+    Start Trigger
+
         Any of:
-        <p></p>
-        "autoguiding failed"<br />
-        "excessive guiding errors"<br />
+
+        "autoguiding failed"
+        "excessive guiding errors"
         "guider stopped or lost star"
-    </td></tr>
 
-    <tr><td><strong>End Trigger</strong></td>
-    <td>
+
+    End Trigger
+
         Any of:
-        <p></p>
-        "will try image again, this time unguided"<br />
+
+        "will try image again, this time unguided"
         "guiding failed, continuing unguided"
-     </td></tr>
 
-    <tr><td><strong>Exclusions</strong></td>
-    <td>
+
+    Exclusions
+
         Guider failures where imaging did not continue unguided
-    </td></tr>
 
-    <tr><td><strong>Notes</strong></td>
-    <td>
+
+    Notes
+
         Only guider failures where ACP carried on imaging unguided after the failure are included in the result set
-    </td></tr>
-</table>
 
-<table>
-    <tr><td width="150px"><strong>Event</strong></td>
-    <td width="850px">All-Sky plate solve success count (new in version 1.32, ACP 7)</td></tr>
 
-    <tr><td><strong>Start Trigger</strong></td>
-    <td>"Attempting all-sky plate solution"</td>
+
+
+    Event
+    All-Sky plate solve success count (new in version 1.32, ACP 7)
+
+    Start Trigger
+    "Attempting all-sky plate solution"</td>
     </tr>
 
-    <tr><td><strong>End Trigger</strong></td>
-    <td>
+    End Trigger
+
         Any of:
-        <p></p>
-        "All-sky solution failed"<br />
-        "All-sky solution was incorrect"<br />
+
+        "All-sky solution failed"
+        "All-sky solution was incorrect"
         "All-sky solution successful"
-     </td></tr>
 
-    <tr><td><strong>Exclusions</strong></td>
-    <td>-</td></tr>
 
-    <tr><td><strong>Notes</strong></td>
-    <td>Only successful all-sky solves are counted</td></tr>
-</table>
+    Exclusions
+    -
 
-<table>
-    <tr><td width="150px"><strong>Event</strong></td>
-    <td width="850px">All-Sky plate solve failure count (new in version 1.32, ACP 7)</td></tr>
+    Notes
+    Only successful all-sky solves are counted
 
-    <tr><td><strong>Start Trigger</strong></td>
-    <td>"Attempting all-sky plate solution"</td>
+
+
+    Event
+    All-Sky plate solve failure count (new in version 1.32, ACP 7)
+
+    Start Trigger
+    "Attempting all-sky plate solution"</td>
     </tr>
 
-    <tr><td><strong>End Trigger</strong></td>
-    <td>
+    End Trigger
+
         Any of:
-        <p></p>
-        "All-sky solution failed"<br />
-        "All-sky solution was incorrect"<br />
+
+        "All-sky solution failed"
+        "All-sky solution was incorrect"
         "All-sky solution successful"
-     </td></tr>
 
-    <tr><td><strong>Exclusions</strong></td>
-    <td>-</td></tr>
 
-    <tr><td><strong>Notes</strong></td>
-    <td>Only failed all-sky solves are counted</td></tr>
-</table>
+    Exclusions
+    -
 
-<table>
-    <tr><td width="150px"><strong>Event</strong></td>
-    <td width="850px">All-Sky plate solve time (new in version 1.32, ACP 7)</td></tr>
+    Notes
+    Only failed all-sky solves are counted
 
-    <tr><td><strong>Start Trigger</strong></td>
-    <td>"Attempting all-sky plate solution"</td>
+
+
+    Event
+    All-Sky plate solve time (new in version 1.32, ACP 7)
+
+    Start Trigger
+    "Attempting all-sky plate solution"</td>
     </tr>
 
-    <tr><td><strong>End Trigger</strong></td>
-    <td>
+    End Trigger
+
         Any of:
-        <p></p>
-        "All-sky solution failed"<br />
-        "All-sky solution was incorrect"<br />
+
+        "All-sky solution failed"
+        "All-sky solution was incorrect"
         "All-sky solution successful"
-     </td></tr>
 
-    <tr><td><strong>Exclusions</strong></td>
-    <td>-</td></tr>
 
-    <tr><td><strong>Notes</strong></td>
-    <td>Only successful all-sky solves are used</td></tr>
-</table>
+    Exclusions
+    -
+
+    Notes
+    Only successful all-sky solves are used
+
 
 ## Technical details
 ACP Log Analyzer was developed in Microsoft Visual Studio 2010/2012 using C#, the .NET Framework version 4
