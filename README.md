@@ -86,76 +86,104 @@ The **Configure Report** window allows you to control which items appear in repo
 
 ![](./Help/_images/la08.png)
 
-The following table describes each report property in detail.
+The following describes each report property in detail.
 
-<table>
-    <tr><td colspan="2" style="text-align:right; font-size:14px"><strong>Report Summary Properties</strong></td></tr>
-    <tr><td width="285px"><strong>Report Property</strong></td>	<td><strong>Description</strong></td></tr>
-    <tr><td>Show summary</td>									<td>Shows the report summary if checked, otherwise the summary is not displayed</td></tr>
-    <tr><td>Show summary at bottom of the page</td>				<td>Shows the summary at the bottom of the report if checked, otherwise the summary will be at the top</td></tr>
-    <tr><td>Total number of logs parsed</td>					<td>Shows the total number of valid ACP logs parsed. Logs are inspected when they are added to the log list to confirm they are valid ACP logs (lots of applications use the .log file extension)</td></tr>
-    <tr><td>Total number of unique targets</td>					<td>The overall (for all logs) count of unique observing targets</td></tr>
-    <tr><td>Total number of images taken</td>					<td>The overall count of successfully completed exposures. This number does <em>not</em> include pointing exposures, auto-focus exposures, etc.</td></tr>
-    <tr><td>Overall runtime breakdown</td>						<td>Provides an overall time-based breakdown of observing activities. This includes <em>imaging time</em> (the time spent actively taking exposures), <em>wait time</em> (time spent waiting for certain conditions, e.g. plan wait statements such as #WAITFOR, #WAITUNTIL, etc.), <em>observatory overhead</em> (all other time not included in the other categories), <em>imaging as % of runtime</em> (shows the percentage of time spent usefully taking images)</td></tr>
-    <tr><td>Sort report output by date</td>						<td>Sorts report output by date if checked</td></tr>
-    <tr><td>Sort report output by date in ascending order</td>	<td>Sorts the output in ascending order if checked, otherwise output is sorted in descending order</td></tr>
-    <tr><td>Total number of successful auto-focus runs</td>		<td>The overall count of successfully completed auto-focus runs</td></tr>
-    <tr><td>Total number of unsuccessful auto-focus runs</td>	<td>The overall count of auto-focus runs which did not complete successfully</td></tr>
-    <tr><td>Total number of successful plate solves</td>		<td>The overall count of successfully completed plate solve operations</td></tr>
-    <tr><td>Total number of unsuccessful plate solves</td>		<td>The overall count of failed plate solve operations</td></tr>
-    <tr><td>Overall guider failure/unguided imaging count</td>	<td>The overall count of failed auto-guiding operations</td></tr>
-    <tr><td>Overall successful all-sky plate solve count</td>	<td>The overall count of successful all-sky plate solve operations <em>(new in 1.32, ACP 7)</em></td></tr>
-    <tr><td>Overall unsuccessful all-sky plate solve count</td>	<td>The overall count of unsuccessful all-sky plate solve operations  <em>(new in 1.32, ACP 7)</em></td></tr>
-    <tr>
-    <td>Overall guider failure/unguided imaging brkdn</td>		<td>Show a breakdown of the log, target and time when the guiding failed (and imaging of a target (not an auto-focus target) continued unguided)</td></tr>
-    <tr><td>Overall average FWHM</td>							<td>The overall average FWHM for all target images taken in all logs.  FWHM measurements only include data for successful plate-solves on imaging targets (e.g. pointing update FWHM's are ignored)</td></tr>
-    <tr><td>Overall average HFD</td>							<td>The overall average HFD as reported by FocusMax for all target images taken in all logs. Only applies to successful AF runs</td></tr>
-    <tr><td>Overall average pointing error (object slew)</td>	<td>The overall average pointing error following a slew to a target. This includes imaging targets, auto-focus targets, returns from auto-focusing, etc.</td></tr>
-    <tr><td>Overall average pointing error (center slew)</td>	<td>The overall average pointing error following a slew to center an object in the FoV</td></tr>
-    <tr><td>Overall average auto-focus time</td>				<td>The overall average time taken to successfully complete an auto-focus (failed attempts are ignored). This does not include slew time to target stars. This value is a measure of the time from when ACP hands control to FocusMax until control passes back to ACP</td></tr>
-    <tr><td>Overall average guider start-up time</td>			<td>The overall average time taken for the guider to successfully start (failed starts are ignored)</td></tr>
-    <tr><td>Overall average guider settle time</td>				<td>The overall average time taken for the guider to successfully settle (failed attempts are ignored)</td></tr>
-    <tr><td>Overall average filter change time</td>				<td>The overall average time taken for filter changes (the results for all filters are combined)</td></tr>
-    <tr><td>Overall average pointing exp/plate solve time</td>	<td>The overall average time taken to successfully complete the process to take a pointing exposure and solve the resulting image (failed attempts are ignored)</td></tr>
-    <tr><td>Overall average slew time (targets)</td>			<td>The overall average time taken to slew to observing targets (all other types of slews are ignored)</td></tr>
-    <tr><td>Overall average all-sky plate solve time</td>		<td>The overall average time taken to successfully complete all-sky plate solves <em>(new in 1.32, ACP 7)</em></td></tr>
+### Report Summary Properties
 
-    <tr><td colspan="2" style="text-align:right; font-size:14px"><strong>Per-Target Details Properties</strong></td></tr>
-    <tr><td width="285px"><strong>Report Property</strong></td>	<td><strong>Description</strong></td></tr>
-    <tr><td>Show target details</td>							<td>Displays target details if checked, otherwise all target details are not displayed (although the details of the target are included in other statistics and calculations)</td></tr>
-    <tr><td>Ignore targets with zero completed exposures</td>	<td>If checked, targets where no images have been successfully taken are ignored (not displayed)</td></tr>
-    <tr><td>Show target name</td>								<td>Shows the target's name if checked</td></tr>
-    <tr><td>Completed exposure details</td>						<td>Displays a breakdown of successfully completed exposures, including imaging time, number of images for each filter and binning levels</td></tr>
-    <tr><td>Total imaging time</td>								<td>Displays the total time spent imaging this target</td></tr>
-    <tr><td>Average auto-focus time</td>						<td>Displays the average time spent auto-focusing on this target on this target</td></tr>
-    <tr><td>Average FWHM</td>									<td>Displays the average FWHM for this target.  FWHM measurements only include data for successful plate-solves on imaging targets (e.g. pointing update FWHM's are ignored)</td></tr>
-    <tr><td>Average HFD</td>									<td>Displays the average HFD as reported by FocusMax for all target images in the selected log. Only applies to successful AF runs</td></tr>
-    <tr><td>Successful plate solves</td>						<td>Displays the total number of successful plate solves for this target</td></tr>
-    <tr><td>Unsuccessful plate solves</td>						<td>Displays the total number of unsuccessful plate solves for this target</td></tr>
-    <tr><td>Successful all-sky plate solves</td>				<td>Displays the total count of successful all-sky plate solve operations for this target <em>(new in 1.32, ACP 7)</em></td></tr>
-    <tr><td>Unsuccessful all-sky plate solves</td>				<td>Displays the total count of unsuccessful all-sky plate solve operations for this target <em>(new in 1.32, ACP 7)</em></td></tr>
-    <tr><td>Average pointing error (object slew)</td>			<td>Displays the average pointing error following a slew to a target. A 'target' is defined as an actual imaging target, an auto-focus star and returns to an imaging target from auto-focusing.</td></tr>
-    <tr><td>Average pointing error (center slew)</td>			<td>Displays the average pointing error following a slew to center this target in the FoV</td></tr>
-    <tr><td>Successful auto-focus</td>							<td>Displays a count of the number of successful auto-focus runs for this target</td></tr>
-    <tr><td>Unsuccessful auto-focus</td>						<td>Displays a count of the number of unsuccessful auto-focus runs for this target</td></tr>
-    <tr><td>Guider failure/unguided imaging count</td>			<td>Displays a count of the number of times guiding failed (and an exposure proceeded unguided) for this target</td></tr>
-    <tr><td>Guider failure/unguided imaging breakdown</td>		<td>Shows a breakdown of when guiding failed for this target</td></tr>
-    <tr><td>Average guider start-up time</td>					<td>Displays the average time taken for the guider to successfully start while imaging this target (failed starts are ignored)</td></tr>
-    <tr><td>Average guider settle time</td>						<td>Displays the average time taken for the guider to settle while imaging this target (failed starts are ignored)</td></tr>
-    <tr><td>Average filter change time</td>						<td>Displays the average time taken for filter changes while imaging this target (the results for all filters are combined)</td></tr>
-    <tr><td>Average pointing exposure/plate solve time</td>		<td>Displays the average time taken to successfully complete the process to take a pointing exposure for this target and solve the resulting image (failed attempts are ignored)</td></tr>
-    <tr><td>Average slew time (targets)</td>					<td>Displays the average time taken to slew to this target (all other types of slews are ignored)</td></tr>
-    <tr><td>Average all-sky plate solve time</td>				<td>Displays the average time taken to successfully complete all-sky plate solves <em>(new in 1.32, ACP 7)</em></td></tr>
+| Report Property                                   | Description                                                                                           |
+| Show summary                                      | Shows the report summary if checked, otherwise the summary is not displayed                           |
+| Show summary at bottom of the page                | Shows the summary at the bottom of the report if checked, otherwise the summary will be at the top    |
+| Total number of logs parsed                       | Shows the total number of valid ACP logs parsed. Logs are inspected when they are added to the log
+                                                      list to confirm they are valid ACP logs (lots of applications use the .log file extension)            |
+| Total number of unique targets                    | The overall (for all logs) count of unique observing targets                                          |
+| Total number of images taken                      | The overall count of successfully completed exposures. This number does not include pointing
+                                                      exposures, auto-focus exposures, etc.                                                                 |
+| Overall runtime breakdown                         | Provides an overall time-based breakdown of observing activities. This includes **imaging time**
+                                                      (the time spent actively taking exposures), **wait time** (time spent waiting for certain conditions
+                                                      , e.g. plan wait statements such as #WAITFOR, #WAITUNTIL, etc.), **observatory overhead** (all other
+                                                      time not included in the other categories), **imaging as % of runtime** (shows the percentage of time
+                                                      spent usefully taking images)                                                                         |
+| Sort report output by date                        | Sorts report output by date if checked                                                                |
+| Sort report output by date in ascending order     | Sorts the output in ascending order if checked, otherwise output is sorted in descending order        |
+| Total number of successful auto-focus runs        | The overall count of successfully completed auto-focus runs                                           |
+| Total number of unsuccessful auto-focus runs      | The overall count of auto-focus runs which did not complete successfully                              |
+| Total number of successful plate solves           | The overall count of successfully completed plate solve operations                                    |
+| Total number of unsuccessful plate solves         | The overall count of failed plate solve operations                                                    |
+| Overall guider failure/unguided imaging count     | The overall count of failed auto-guiding operations                                                   |
+| Overall successful all-sky plate solve count      | The overall count of successful all-sky plate solve operations (new in 1.32, ACP 7)                   |
+| Overall unsuccessful all-sky plate solve count    | The overall count of unsuccessful all-sky plate solve operations (new in 1.32, ACP 7)                 |
+| Overall guider failure/unguided imaging brkdn     | Show a breakdown of the log, target and time when the guiding failed (and imaging of a target
+                                                      (not an auto-focus target) continued unguided)                                                        |
+| Overall average FWHM                              | The overall average FWHM for all target images taken in all logs. FWHM measurements only include
+                                                      data for successful plate-solves on imaging targets (e.g. pointing update FWHM's are ignored)         |
+| Overall average HFD                               | The overall average HFD as reported by FocusMax for all target images taken in all logs.
+                                                      Only applies to successful AF runs                                                                    |
+| Overall average pointing error (object slew)      | The overall average pointing error following a slew to a target. This includes imaging targets,
+                                                      auto-focus targets, returns from auto-focusing, etc.                                                  |
+| Overall average pointing error (center slew)      | The overall average pointing error following a slew to center an object in the FoV                    |
+| Overall average auto-focus time                   | The overall average time taken to successfully complete an auto-focus (failed attempts are ignored).
+                                                      This does not include slew time to target stars. This value is a measure of the time from when ACP
+                                                      hands control to FocusMax until control passes back to ACP                                            |
+| Overall average guider start-up time              | The overall average time taken for the guider to successfully start (failed starts are ignored)       |
+| Overall average guider settle time                | The overall average time taken for the guider to successfully settle (failed attempts are ignored)    |
+| Overall average filter change time                | The overall average time taken for filter changes (the results for all filters are combined)          |
+| Overall average pointing exp/plate solve time     | The overall average time taken to successfully complete the process to take a pointing exposure and
+                                                      solve the resulting image (failed attempts are ignored)                                               |
+| Overall average slew time (targets)               | The overall average time taken to slew to observing targets (all other types of slews are ignored)    |
+| Overall average all-sky plate solve time          | The overall average time taken to successfully complete all-sky plate solves <em>(new in 1.32, ACP 7) |
 
-    <tr><td colspan="2" style="text-align:right; font-size:14px"><strong>Log Details Properties</strong></td></tr>
-    <tr><td width="285px"><strong>Report Property</strong></td>	<td><strong>Description</strong></td></tr>
-    <tr><td>Ignore logs with zero targets</td>					<td>If checked, logs with no targets are ignored (they are not displayed and all their properties are excluded from other statistics and calculations)</td></tr>
-    <tr><td>Runtime breakdown</td>								<td>Shows a time-based breakdown of log activity if checked, otherwise the breakdown is not displayed</td></tr>
-    <tr><td>Script errors</td>									<td>Shows a count of script errors if checked</td></tr>
-    <tr><td>Script aborts</td>									<td>Shows a count of scripts that were aborted by the user if checked</td></tr>
-    <tr><td>Log filename</td>									<td>Displays the log's filename (excluding the path) if checked</td></tr>
-    <tr><td>Log start date</td>									<td>Displays the log's start date/time if checked</td></tr>
-    <tr><td>Log end date</td>									<td>Displays the log's end date/time if checked</td></tr>
-</table>                    
+### Per-Target Details Properties
+
+| Report Property                                   | Description                                                                                           |
+| Show target details                               | Displays target details if checked, otherwise all target details are not displayed (although the
+                                                      details of the target are included in other statistics and calculations)                              |
+| Ignore targets with zero completed exposures      | If checked, targets where no images have been successfully taken are ignored (not displayed)          |
+| Show target name                                  | Shows the target's name if checked                                                                    |
+| Completed exposure details                        | Displays a breakdown of successfully completed exposures, including imaging time, number of images
+                                                      for each filter and binning levels                                                                    |
+| Total imaging time                                | Displays the total time spent imaging this target                                                     |
+| Average auto-focus time                           | Displays the average time spent auto-focusing on this target on this target                           |
+| Average FWHM                                      | Displays the average FWHM for this target.  FWHM measurements only include data for successful
+                                                      plate-solves on imaging targets (e.g. pointing update FWHM's are ignored)                             |
+| Average HFD                                       | Displays the average HFD as reported by FocusMax for all target images in the selected log.
+                                                      Only applies to successful AF runs                                                                    |
+| Successful plate solves                           | Displays the total number of successful plate solves for this target                                  |
+| Unsuccessful plate solves                         | Displays the total number of unsuccessful plate solves for this target                                |
+| Successful all-sky plate solves                   | Displays the total count of successful all-sky plate solve operations for this target
+                                                      (new in 1.32, ACP 7)                                                                                  |
+| Unsuccessful all-sky plate solves                 | Displays the total count of unsuccessful all-sky plate solve operations for this target
+                                                      (new in 1.32, ACP 7)                                                                                  |
+| Average pointing error (object slew)              | Displays the average pointing error following a slew to a target. A 'target' is defined as an actual
+                                                      imaging target, an auto-focus star and returns to an imaging target from auto-focusing                |
+| Average pointing error (center slew)              | Displays the average pointing error following a slew to center this target in the FoV                 |
+| Successful auto-focus	                            | Displays a count of the number of successful auto-focus runs for this target                          |
+| Unsuccessful auto-focus                           | Displays a count of the number of unsuccessful auto-focus runs for this target                        |
+| Guider failure/unguided imaging count	            | Displays a count of the number of times guiding failed (and an exposure proceeded unguided) for
+                                                      this target                                                                                           |
+| Guider failure/unguided imaging breakdown	        | Shows a breakdown of when guiding failed for this target                                              |
+| Average guider start-up time                      | Displays the average time taken for the guider to successfully start while imaging this target
+                                                      (failed starts are ignored)                                                                           |
+| Average guider settle time                        | Displays the average time taken for the guider to settle while imaging this target
+                                                      (failed starts are ignored)                                                                           |
+| Average filter change time                        | Displays the average time taken for filter changes while imaging this target (the results for all
+                                                      filters are combined)                                                                                 |
+| Average pointing exposure/plate solve time        | Displays the average time taken to successfully complete the process to take a pointing exposure
+                                                      for this target and solve the resulting image (failed attempts are ignored)                           |
+| Average slew time (targets)                       | Displays the average time taken to slew to this target (all other types of slews are ignored)         |
+| Average all-sky plate solve time                  | Displays the average time taken to successfully complete all-sky plate solves (new in 1.32, ACP 7)    |
+
+### Log Details Properties
+
+| Report Property                                   | Description                                                                                           |
+| Ignore logs with zero targets                     | If checked, logs with no targets are ignored (they are not displayed and all their properties
+                                                      are excluded from other statistics and calculations)                                                  |
+| Runtime breakdown                                 | Shows a time-based breakdown of log activity if checked, otherwise the breakdown is not displayed     |
+| Script errors                                     | Shows a count of script errors if checked                                                             |
+| Script aborts                                     | Shows a count of scripts that were aborted by the user if checked                                     |
+| Log filename                                      | Displays the log's filename (excluding the path) if checked                                           |
+| Log start date                                    | Displays the log's start date/time if checked                                                         |
+| Log end date                                      | Displays the log's end date/time if checked                                                           |
 
 ## Generating a graph
+Log Analyzer allows you to generate 22 different types of graph that plot data points for key observing activities.
+Simply select the required graph type and click **Plot**:
