@@ -445,14 +445,16 @@ Notes:          Only imaging exposure FWHMs are recorded (pointing exposure FWHM
 Event:          Auto-focus time measurement
 Start Trigger:  "start slew to autofocus"
 End Trigger:    "autofocus finished" + successful final plate solve
-Exclusions:     Center slew operations; FocusMax reports a failure; Plate-solve failure (for any reason)
+Exclusions:     Center slew operations
+                FocusMax reports a failure
+                Plate-solve failure (for any reason)
 Notes:          AF time measurement includes:
 
-                Time to slew to the AF target
-                Acquiring the AF star (includes a possible plate solve by FocusMax)
-                The actual focusing process handled by FocusMax
-                Re-slew back to the original target
-                Pointing update/slew
+                * Time to slew to the AF target
+                * Acquiring the AF star (includes a possible plate solve by FocusMax)
+                * The actual focusing process handled by FocusMax
+                * Re-slew back to the original target
+                * Pointing update/slew
 
                 Only auto-focus runs which result in successful plate-solves are included in the result set
 
@@ -469,394 +471,135 @@ Notes:          For our purposes an 'object' slew is defined as:
 
                 Only slews which result in successful plate-solves are included in the result set
 
-
-
-
-    Event
-    Pointing error measurement (center slew)
-
-    Start Trigger
-    "Re-slew to target"
-
-    End Trigger
-    "(slew complete)"
-
-    Exclusions
-
-        Anytime "re-slew to target" is immediately followed by "start slew to autofocus"
-        (there should be no plate-solve after re-slew to a focus star)
-        Plate-solve failure (for any reason)
-
-
-    Notes
-
-        Only slews which result in successful plate-solves are included in the result set
-
-
-
-
-    Event
-    Slew (to target) time
-
-    Start Trigger
-    "start slew to"
-
-    End Trigger
-    "slew complete"
-
-    Exclusions
-
-        Anytime "start slew to" is immediately preceded by "re-slew to target" (this is a 'center' slew)
-        Plate-solve failure (for any reason)
-        Pointing update, re-slew to target or start of slew to new target found while looking for slew completion time
-
-
-    Notes
-
-        Only slews which result in successful plate-solves are included in the time result set
-
-
-
-
-    Event
-    Plate solve count
-
-    Start Trigger
-    "solved!"
-
-    End Trigger
-    -
-
-    Exclusions
-
-        -
-
-
-    Notes
-
-        -
-
-
-
-
-    Event
-    Plate solve error count
-
-    Start Trigger
-
-        Any of:
-
-        "plate solve error!"
-        "no matching stars found"
-        "solution is suspect"
-
-
-    End Trigger
-    -
-
-    Exclusions
-
-        -
-
-
-    Notes
-
-        -
-
-
-
-
-    Event
-    Successful auto-focus count and HFD value
-
-    Start Trigger
-    "auto-focus successful!"
-
-    End Trigger
-    HFD = {value}
-
-    Exclusions
-
-        -
-
-
-    Notes
-
-        -
-
-
-
-
-    Event
-    Auto-focus failure count
-
-    Start Trigger
-    "autofocus failed"
-
-    End Trigger
-    -
-
-    Exclusions
-
-        -
-
-
-    Notes
-
-        -
-
-
-
-
-    Event
-    Script error count
-
-    Start Trigger
-    "script error"
-
-    End Trigger
-    -
-
-    Exclusions
-
-        -
-
-
-    Notes
-
-        -
-
-
-
-
-    Event
-    Script abort count
-
-    Start Trigger
-    "script was aborted"
-
-    End Trigger
-    -
-
-    Exclusions
-
-        -
-
-
-    Notes
-
-        -
-
-
-
-
-    Event
-    Guider start-up time
-
-    Start Trigger
-    "trying to autoguide"
-
-    End Trigger
-    "autoguiding at"
-
-    Exclusions
-
-        -
-
-
-    Notes
-
-        -
-
-
-
-
-    Event
-    Guider settle time
-
-    Start Trigger
-    "guider check ok"
-
-    End Trigger
-    "imaging to"
-
-    Exclusions
-
-        -
-
-
-    Notes
-
-        We start by looking for the successful end of the settle time, then we work backwards to find the start time
-
-
-
-
-    Event
-    Filter change time
-
-    Start Trigger
-    "switching from"
-
-    End Trigger
-    "(taking"
-
-    Exclusions
-
-        "(guide star" found while looking for end trigger
-
-
-    Notes
-
-        If not doing a pointing update there is no way of working out the filter change time.
-        This is because the change time is included as part of the guider start-up time
-
-
-
-
-    Event
-    Wait time
-
-    Start Trigger
-    "wait until"
-
-    End Trigger
-    "wait finished"
-
-    Exclusions
-
-        -
-
-
-    Notes
-
-        -
-
-
-
-
-    Event
-    Pointing exposure/plate solve time updates
-
-    Start Trigger
-    "updating pointing" + successful plate-solve
-
-    End Trigger
-    Successful plate-solve time
-
-    Exclusions
-
-        Plate-solve failure (for any reason)
-
-
-    Notes
-
-        Only exposures which result in successful plate-solves are included in the time result set
-
-
-
-
-    Event
-    Guider failure
-
-    Start Trigger
-
-        Any of:
-
-        "autoguiding failed"
-        "excessive guiding errors"
-        "guider stopped or lost star"
-
-
-    End Trigger
-
-        Any of:
-
-        "will try image again, this time unguided"
-        "guiding failed, continuing unguided"
-
-
-    Exclusions
-
-        Guider failures where imaging did not continue unguided
-
-
-    Notes
-
-        Only guider failures where ACP carried on imaging unguided after the failure are included in the result set
-
-
-
-
-    Event
-    All-Sky plate solve success count (new in version 1.32, ACP 7)
-
-    Start Trigger
-    "Attempting all-sky plate solution"</td>
-    </tr>
-
-    End Trigger
-
-        Any of:
-
-        "All-sky solution failed"
-        "All-sky solution was incorrect"
-        "All-sky solution successful"
-
-
-    Exclusions
-    -
-
-    Notes
-    Only successful all-sky solves are counted
-
-
-
-    Event
-    All-Sky plate solve failure count (new in version 1.32, ACP 7)
-
-    Start Trigger
-    "Attempting all-sky plate solution"</td>
-    </tr>
-
-    End Trigger
-
-        Any of:
-
-        "All-sky solution failed"
-        "All-sky solution was incorrect"
-        "All-sky solution successful"
-
-
-    Exclusions
-    -
-
-    Notes
-    Only failed all-sky solves are counted
-
-
-
-    Event
-    All-Sky plate solve time (new in version 1.32, ACP 7)
-
-    Start Trigger
-    "Attempting all-sky plate solution"</td>
-    </tr>
-
-    End Trigger
-
-        Any of:
-
-        "All-sky solution failed"
-        "All-sky solution was incorrect"
-        "All-sky solution successful"
-
-
-    Exclusions
-    -
-
-    Notes
-    Only successful all-sky solves are used
+Event:          Pointing error measurement (center slew)
+Start Trigger:  "Re-slew to target"
+End Trigger:    "(slew complete)"
+Exclusions:     Anytime "re-slew to target" is immediately followed by "start slew to autofocus"
+                (there should be no plate-solve after re-slew to a focus star)
+                Plate-solve failure (for any reason)
+Notes:          Only slews which result in successful plate-solves are included in the result set
+
+Event:          Slew (to target) time
+Start Trigger:  "start slew to"
+End Trigger:    "slew complete"
+Exclusions:     Anytime "start slew to" is immediately preceded by "re-slew to target" (this is a 'center' slew)
+                Plate-solve failure (for any reason)
+                Pointing update, re-slew to target or start of slew to new target found while looking for slew completion time
+Notes:          Only slews which result in successful plate-solves are included in the time result set
+
+Event:          Plate solve count
+Start Trigger:  "solved!"
+End Trigger:    -
+Exclusions:     -
+Notes:          -
+
+Event:          Plate solve error count
+Start Trigger:  Any of:
+
+                * "plate solve error!"
+                * "no matching stars found"
+                * "solution is suspect"
+End Trigger:    -
+Exclusions:     -
+Notes:          -
+
+Event:          Successful auto-focus count and HFD value
+Start Trigger:  "auto-focus successful!"
+End Trigger:    HFD = {value}
+Exclusions:     -
+Notes:          -
+
+Event:          Auto-focus failure count
+Start Trigger:  "autofocus failed"
+End Trigger:    -
+Exclusions:     -
+Notes:          -
+
+Event:          Script error count
+Start Trigger:  "script error"
+End Trigger:    -
+Exclusions:     -
+Notes:          -
+
+Event:          Script abort count
+Start Trigger:  "script was aborted"
+End Trigger:    -
+Exclusions:     -
+Notes:          -
+
+Event:          Guider start-up time
+Start Trigger:  "trying to autoguide"
+End Trigger:    "autoguiding at"
+Exclusions:     -
+Notes:          -
+
+Event:          Guider settle time
+Start Trigger:  "guider check ok"
+End Trigger:    "imaging to"
+Exclusions:     -
+Notes:          We start by looking for the successful end of the settle time, then we work backwards to find the start time
+
+Event:          Filter change time
+Start Trigger:  "switching from"
+End Trigger:    "(taking"
+Exclusions:     "(guide star" found while looking for end trigger
+Notes:          If not doing a pointing update there is no way of working out the filter change time.
+                This is because the change time is included as part of the guider start-up time
+
+Event:          Wait time
+Start Trigger:  "wait until"
+End Trigger:    "wait finished"
+Exclusions:     -
+Notes:          -
+
+Event:          Pointing exposure/plate solve time updates
+Start Trigger:  "updating pointing" + successful plate-solve
+End Trigger:    Successful plate-solve time
+Exclusions:     Plate-solve failure (for any reason)
+Notes:          Only exposures which result in successful plate-solves are included in the time result set
+
+Event:          Guider failure
+Start Trigger:  Any of:
+
+                * "autoguiding failed"
+                * "excessive guiding errors"
+                * "guider stopped or lost star"
+End Trigger:    Any of:
+
+                * "will try image again, this time unguided"
+                * "guiding failed, continuing unguided"
+Exclusions:     Guider failures where imaging did not continue unguided
+Notes:          Only guider failures where ACP carried on imaging unguided after the failure are included in the result set
+
+Event:          All-Sky plate solve success count (new in version 1.32, ACP 7)
+Start Trigger:  "Attempting all-sky plate solution"
+End Trigger:    Any of:
+
+                * "All-sky solution failed"
+                * "All-sky solution was incorrect"
+                * "All-sky solution successful"
+Exclusions:     -
+Notes:          Only successful all-sky solves are counted
+
+Event:          All-Sky plate solve failure count (new in version 1.32, ACP 7)
+Start Trigger:  "Attempting all-sky plate solution"
+End Trigger:    Any of:
+
+                * "All-sky solution failed"
+                * "All-sky solution was incorrect"
+                * "All-sky solution successful"
+Exclusions:     -
+Notes:          Only failed all-sky solves are counted
+
+Event:          All-Sky plate solve time (new in version 1.32, ACP 7)
+Start Trigger:  "Attempting all-sky plate solution"
+End Trigger:    Any of:
+
+                * "All-sky solution failed"
+                * "All-sky solution was incorrect"
+                * "All-sky solution successful"
+Exclusions:     -
+Notes:          Only successful all-sky solves are used
 ```
 
 ## Technical details
