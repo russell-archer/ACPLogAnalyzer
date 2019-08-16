@@ -181,7 +181,7 @@ solve the resulting image (failed attempts are ignored).
 The overall average time taken to slew to observing targets (all other types of slews are ignored).
 
 #### Overall average all-sky plate solve time
-The overall average time taken to successfully complete all-sky plate solves <em>(new in 1.32, ACP 7).
+The overall average time taken to successfully complete all-sky plate solves (new in 1.32, ACP 7).
 
 ### Per-Target Details Properties
 #### Show target details
