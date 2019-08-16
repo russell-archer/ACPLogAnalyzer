@@ -423,6 +423,7 @@ the previously downloaded update the next time you run the application.
 In order that the process used by ACP Log Analyzer when interpreting ACP log files may be transparent
 and open to review and feedback, we present here a simplified version of the parsing rules employed by Analyzer.
 
+```
 Event:          Imaging target
 Start Trigger:  "starting target"
 End Trigger:    "starting target"
@@ -455,33 +456,18 @@ Notes:          AF time measurement includes:
 
                 Only auto-focus runs which result in successful plate-solves are included in the result set
 
+Event:          Pointing error measurement (object slew)
+Start Trigger:  "start slew to"
+End Trigger:    "(slew complete)" + successful final plate solve
+Exclusions:     Anytime "start slew to" is immediately preceded by "re-slew to target" (this is a 'center' slew);
+                Plate-solve failure (for any reason)
+Notes:          For our purposes an 'object' slew is defined as:
 
+                * Slews to imaging targets (e.g M57, etc.)
+                * Slews to auto-focus targets
+                * Return slews from AF targets
 
-
-    Event
-    Pointing error measurement (object slew)
-
-    Start Trigger
-    "start slew to"
-
-    End Trigger
-    "(slew complete)" + successful final plate solve
-
-    Exclusions
-
-        Anytime "start slew to" is immediately preceded by "re-slew to target" (this is a 'center' slew)
-        Plate-solve failure (for any reason)
-
-
-    Notes
-
-        For our purposes an 'object' slew is defined as:
-
-        Slews to imaging targets (e.g M57, etc.)
-        Slews to auto-focus targets
-        Return slews from AF targets
-
-        Only slews which result in successful plate-solves are included in the result set
+                Only slews which result in successful plate-solves are included in the result set
 
 
 
@@ -871,7 +857,7 @@ Notes:          AF time measurement includes:
 
     Notes
     Only successful all-sky solves are used
-
+```
 
 ## Technical details
 ACP Log Analyzer was developed in Microsoft Visual Studio 2010/2012 using C#, the .NET Framework version 4
